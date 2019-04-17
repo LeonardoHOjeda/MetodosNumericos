@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import de.jensd.fx.glyphs.emojione.EmojiOneView?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.ImageCursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane prefHeight="484.0" prefWidth="584.0" stylesheets="@estilos.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+    <top>
+        <HBox alignment="CENTER_RIGHT" onMouseDragged="#boton" onMousePressed="#presion" prefHeight="33.0" prefWidth="584.0" style="-fx-background-color: #4285f4;">
+         <children>
+            <FontAwesomeIconView fill="#f2f2f2" glyphName="MINUS" onMouseClicked="#min" size="1.2em" strokeType="OUTSIDE" strokeWidth="0.0">
+               <HBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </HBox.margin>
+                <cursor>
+                    <ImageCursor fx:constant="HAND" />
+                </cursor>
+            </FontAwesomeIconView>
+            <FontAwesomeIconView fill="#f2f2f2" glyphName="CIRCLE" onMouseClicked="#max" size="1.2em" strokeType="OUTSIDE" strokeWidth="0.0">
+               <HBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </HBox.margin>
+            </FontAwesomeIconView>
+            <FontAwesomeIconView fill="#f2f2f2" glyphName="CLOSE" onMouseClicked="#cerrar" size="1.2em" strokeType="OUTSIDE" strokeWidth="0.0">
+               <HBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </HBox.margin>
+                <cursor>
+                    <ImageCursor fx:constant="HAND" />
+                </cursor>
+            </FontAwesomeIconView>
+         </children></HBox>
+    </top>
+
+    <center>
+        <VBox alignment="CENTER" prefHeight="505.0" prefWidth="666.0" spacing="10" style="-fx-background-color: #34a853;">
+         <children>
+            <Label style="-fx-background-color: #fbbc05;" text="Escoge la unidad que desees acceder" />
+            <JFXButton fx:id="primerParcial" mnemonicParsing="false" prefHeight="28.0" prefWidth="134.0" style="-fx-background-color: fbbc05;" text="Primer Parcial">
+                <graphic>
+                    <MaterialDesignIconView fill="black" glyphName="NUMERIC_1_BOX_OUTLINE" glyphSize="20" />
+                </graphic>
+            </JFXButton>
+            <JFXButton fx:id="segundoParcial" mnemonicParsing="false" prefHeight="28.0" prefWidth="133.0" style="-fx-background-color: fbbc05;" text="Segundo Parcial">
+                <graphic>
+                    <MaterialDesignIconView fill="black" glyphName="NUMERIC_2_BOX_OUTLINE" glyphSize="20" />
+                </graphic>
+            </JFXButton>
+            <JFXButton fx:id="tercerParcial" mnemonicParsing="false" prefHeight="28.0" prefWidth="134.0" style="-fx-background-color: fbbc05;" text="Tercer Parcial">
+                <graphic>
+                    <MaterialDesignIconView disable="true" fill="black" glyphName="NUMERIC_3_BOX_OUTLINE" glyphSize="20" />
+                </graphic>
+            </JFXButton>
+            <JFXButton disable="true" mnemonicParsing="false" prefHeight="28.0" prefWidth="134.0" style="-fx-background-color: fbbc05;" text="Cuarto Parcial">
+                <graphic>
+                    <EmojiOneView fill="black" glyphName="FOUR_LEAF_CLOVER" glyphSize="20" />
+                </graphic>
+            </JFXButton>
+         </children></VBox>
+    </center>
+</BorderPane>
