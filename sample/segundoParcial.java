@@ -2,14 +2,22 @@ package sample;
 
 import Funcion.Function;
 import javafx.application.Application;
+import javafx.beans.property.IntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.HPos;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Priority;
+import utils.MyUtils;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -41,28 +49,37 @@ public class segundoParcial implements Initializable  {
     @FXML
     ComboBox<String> cmbVariables;
     @FXML
-    GridPane gridPane;
+    GridPane gridPaneGaussJordan;
+    @FXML
+    TextArea txtAreaGaussJordan;
     @FXML
     Button generarMatriz, solucionGauss, limpiarGauss;
 
-
-
-
-
+    int numVariables;
     MetodoPuntoFijo metodoPuntoFijo;
     MetodoNewtonRhapson metodoNewtonRhapson;
     MetodoSecante metodoSecante;
+    Lineales lin;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        GUI();
+
+    }
+
+    private void GUI(){
         cmbVariables.setItems(list);
+        solucionGauss.setDisable(true);
 
-        generarMatriz.setOnAction(e -> GaussJordan());
+        //numVariables = Integer.parseInt(cmbVariables.getValue());
 
+
+        limpiarGauss.setOnAction(event -> limpiar());
 
         metodoPuntoFijo = new MetodoPuntoFijo();
         metodoNewtonRhapson = new MetodoNewtonRhapson();
         metodoSecante = new MetodoSecante();
+        lin = new Lineales();
 
         solucionPuntoFijoFx.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -84,6 +101,40 @@ public class segundoParcial implements Initializable  {
                 Secante();
             }
         });
+
+        solucionGauss.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                double info[][];
+                try{
+                    info = obtenerMatrizTextField();
+                    lin.setMatriz(info);
+                    lin.setNumeroVariables(numVariables);
+
+                    GaussJordan();
+                    limpiarGauss.setDisable(false);
+                }catch (Exception e){
+                    alertaError("Campos vacios, favor de llenar","CAMPOS VACIOS","ERROR! Campos vacios", Alert.AlertType.ERROR);
+                }
+            }
+        });
+
+        generarMatriz.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                try{
+                    numVariables = Integer.parseInt(cmbVariables.getValue());
+                    creacionTextField(numVariables);
+                }catch(Exception e){
+                    alertaError("Introduce las variables","Sin variables detectadas","No has seleccionado las variables", Alert.AlertType.ERROR);
+                }
+
+            }
+        });
+    } // Fin GUI
+
+    private void limpiar(){
+        txtAreaGaussJordan.clear();
     }
 
     private void PuntoFijo(){
@@ -112,7 +163,7 @@ public class segundoParcial implements Initializable  {
             al.setHeaderText("Fail interval!");
             al.show();
         }
-    }
+    } //Fin Punto Fijo
 
     private void Newton(){
         try{
@@ -168,10 +219,98 @@ public class segundoParcial implements Initializable  {
     }
 
     private void GaussJordan(){
-        /**
-         * columnIndez = columnas
-         * rowIndex = filass
-         */
+        double resultado[];
+
+        boolean estado = lin.gaussJordan();
+        resultado = lin.resultadoGaussJordan();
+
+        txtAreaGaussJordan.clear();
+        txtAreaGaussJordan.setText(lin.getProcedimiento());
+        lin.reiniciarProcedimiento();
+
+        if(estado){
+            txtAreaGaussJordan.appendText("\nCon esto obtenemos el valor de las incognitas\n");
+
+            imprimirResultados(resultado);
+        }else{
+        }
+    }
+
+    /**
+     *
+     */
+    private void creacionTextField(int numVariables){
+        gridPaneGaussJordan.getChildren().clear();
+        gridPaneGaussJordan.getColumnConstraints().clear();
+        solucionGauss.setDisable(false);
+
+        //Ciclo para crear los 'labels'
+        for (int i=0; i<numVariables; i++){
+            Label lbl = new Label("X" + (i+1));
+            lbl.getStyleClass().add("lbl");
+            lbl.getStyleClass().add("lbl-danger");
+            lbl.getStyleClass().add("h2");
+            gridPaneGaussJordan.add(lbl,i,0);
+            //gridPaneGaussJordan.setAlignment(lbl, HPos.CENTER);
+            gridPaneGaussJordan.setHalignment(lbl,HPos.CENTER);
+        }
+
+        //Ciclo para crear los TextFields dependiendo de la variable
+        for(int fila=1;fila <= numVariables; fila++){
+            for (int columna=0; columna <= numVariables; columna++){
+                TextField txtField = new TextField();
+                txtField.getStyleClass().add("text-primary");
+                txtField.setOnKeyTyped(keyEventNumber);
+                gridPaneGaussJordan.add(txtField,columna,fila);
+                gridPaneGaussJordan.setHgap(5);
+                gridPaneGaussJordan.setVgap(5);
+                gridPaneGaussJordan.setPadding(new Insets(10,10,10,10));
+            }
+        }
+
+        for(int i=0; i<= numVariables; i++){
+            ColumnConstraints restriccion = new ColumnConstraints(5,10, Double.MAX_VALUE);
+            restriccion.setHgrow(Priority.ALWAYS);
+            gridPaneGaussJordan.getColumnConstraints().add(restriccion);
+        }
+    }//Fin creacionTextField
+
+    /**
+     * Metodo que transforma los TextField en un arreglo 2D
+     * @return el numero en el arreglo 2D
+     */
+    private double[][] obtenerMatrizTextField(){
+        double numeros[][] = new double[numVariables][numVariables+1];
+        int cantidadTxtField = numVariables;
+        double numero;
+
+        for(int fila=0; fila<numVariables; fila++){
+            for (int columna=0; columna<numVariables+1; columna++, cantidadTxtField++){
+                numero = Double.valueOf(((TextField)gridPaneGaussJordan.getChildren().get(cantidadTxtField)).getText());
+                numeros[fila][columna] = numero;
+            }
+        }
+        return numeros;
+    }
+
+
+
+    private void imprimirResultados(double[] resultados){
+        for(int i=0; i<resultados.length; i++){
+            txtAreaGaussJordan.appendText("X"+(i+1)+ "="+ MyUtils.format(resultados[i])+"\n");
+        }
+    }
+
+
+    EventHandler<KeyEvent> keyEventNumber = new EventHandler<KeyEvent>() {
+        public void handle(KeyEvent event) {
+            if(Character.isLetter(event.getCharacter().charAt(0)))
+                event.consume();
+        }
+    };
+
+    /*private void GaussJordan(){
+
         gridPane.getChildren().clear();
         limpiarGauss.setDisable(false);
         TextField tx = new TextField();
@@ -272,5 +411,13 @@ public class segundoParcial implements Initializable  {
             gridPane.add(new TextField(),5,4);
             //System.out.println("Fais");
         }
+    }*/
+
+    private void alertaError(String mensaje, String titulo, String Subtitulo, Alert.AlertType tipoAlerta){
+        Alert al = new Alert(tipoAlerta);
+        al.setTitle(titulo);
+        al.setHeaderText(Subtitulo);
+        al.setContentText(mensaje);
+        al.show();
     }
 }
