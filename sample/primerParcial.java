@@ -1,6 +1,7 @@
 package sample;
 
 import Funcion.Function;
+import SolucionMetodos.PrimerParcial.Metodosprimero;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;

@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import de.jensd.fx.glyphs.icons525.Icons525View?>
+<?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ContextMenu?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox prefHeight="877.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.tercerParcial">
+   <children>
+      <MenuBar prefHeight="33.0" prefWidth="600.0">
+        <menus>
+          <Menu mnemonicParsing="false" text="Informacion">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Tabla de funciones" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Acerca">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Jacobi" />
+                  <MenuItem mnemonicParsing="false" text="Gauss-Seidel" />
+                  <MenuItem mnemonicParsing="false" text="Newton-Rhapson Multivariable" />
+            </items>
+          </Menu>
+        </menus>
+         <contextMenu>
+            <ContextMenu>
+              <items>
+                <MenuItem mnemonicParsing="false" text="Unspecified Action" />
+              </items>
+            </ContextMenu>
+         </contextMenu>
+      </MenuBar>
+      <TabPane prefHeight="900.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+
+          <Tab text="Jacobi">
+            <content>
+              <VBox alignment="CENTER" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Button fx:id="generarMatrizJacobi" mnemonicParsing="false" styleClass="btn, btn-success" text="Generar Matriz Jacobi">
+                            <graphic>
+                                <MaterialDesignIconView fill="black" glyphName="TABLE_EDIT" glyphSize="20" />
+                            </graphic>
+                           <VBox.margin>
+                              <Insets bottom="10.0" />
+                           </VBox.margin>
+                        </Button>
+                        <HBox alignment="CENTER" prefHeight="53.0" prefWidth="600.0" style="-fx-spacing: 20;">
+                           <children>
+                              <Button fx:id="solucionJacobi" mnemonicParsing="false" prefHeight="25.0" prefWidth="105.0" styleClass="btn, btn-warning" text="Resolver">
+                                  <graphic>
+                                      <Icons525View fill="black" glyphName="PENCIL2" glyphSize="20" />
+                                  </graphic>
+                              </Button>
+                              <Button fx:id="limpiarJacobi" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="143.0" styleClass="btn, btn-danger" text="Limpiar Pantalla">
+                                  <graphic>
+                                      <MaterialDesignIconView fill="black" glyphName="ERASER" glyphSize="20" />
+                                  </graphic>
+                              </Button>
+                           </children>
+                           <VBox.margin>
+                              <Insets bottom="10.0" />
+                           </VBox.margin>
+                        </HBox>
+                        <HBox alignment="CENTER" layoutX="10.0" layoutY="40.0" prefHeight="53.0" prefWidth="600.0" style="-fx-spacing: 5;">
+                           <children>
+                              <Label text="Error:" />
+                              <TextField fx:id="txtErrorJacobi" alignment="CENTER" promptText="Error Permitido" />
+                           </children></HBox>
+                        <GridPane fx:id="gridPaneJacobi" prefHeight="108.0" prefWidth="600.0">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <VBox.margin>
+                              <Insets top="20.0" />
+                           </VBox.margin>
+                        </GridPane>
+                        <TextArea fx:id="txtAreaJacobi" editable="false" prefHeight="500.0" prefWidth="200.0">
+                           <VBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="10.0" />
+                           </VBox.margin>
+                        </TextArea>
+                     </children>
+                     <padding>
+                        <Insets top="5.0" />
+                     </padding>
+
+              </VBox>
+            </content>
+          </Tab>
+
+          <Tab text="Gauss - Seidel">
+            <content>
+              <VBox alignment="TOP_CENTER" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" styleClass="h5">
+                     <children>
+                        <Button fx:id="generarMatrizGaussSeidel" mnemonicParsing="false" styleClass="btn, btn-success" text="Generar Matriz Gauss-Seidel">
+                           <VBox.margin>
+                              <Insets bottom="5.0" />
+                           </VBox.margin>
+                            <graphic>
+                                <MaterialDesignIconView fill="black" glyphName="TABLE_EDIT" glyphSize="20" />
+                            </graphic>
+                        </Button>
+                        <HBox alignment="TOP_CENTER" prefHeight="49.0" prefWidth="600.0" spacing="10.0">
+                           <children>
+                              <Button fx:id="resolverGaussSeidel" disable="true" mnemonicParsing="false" styleClass="btn, btn-warning" text="Resolver">
+                                  <graphic>
+                                      <Icons525View fill="black" glyphName="PENCIL2" glyphSize="20" />
+                                  </graphic>
+                              </Button>
+                              <Button fx:id="limpiarGaussSeidel" disable="true" layoutX="284.0" layoutY="10.0" mnemonicParsing="false" styleClass="btn, btn-danger" text="Limpiar Pantalla">
+                                  <graphic>
+                                      <MaterialDesignIconView fill="black" glyphName="ERASER" glyphSize="20" />
+                                  </graphic>
+                              </Button>
+                           </children>
+                        </HBox>
+                        <HBox alignment="TOP_CENTER" layoutX="10.0" layoutY="45.0" prefHeight="49.0" prefWidth="600.0" spacing="10.0">
+                           <VBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </VBox.margin>
+                           <children>
+                              <Label styleClass="lbl, lbl-danger" text="Error Permitido: " />
+                              <TextField fx:id="txtErrorGaus" alignment="CENTER" promptText="Error Permitido" styleClass="text-success" />
+                           </children>
+                        </HBox>
+                        <GridPane fx:id="gridPaneGaussSeidel">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                        </GridPane>
+                        <TextArea fx:id="txtAreaGaussSeidel" editable="false" prefHeight="800.0" prefWidth="200.0">
+                           <VBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </VBox.margin>
+                        </TextArea>
+                     </children>
+                     <padding>
+                        <Insets bottom="5.0" top="5.0" />
+                     </padding></VBox>
+            </content>
+          </Tab>
+
+            <Tab text="Newton - Rhapson Multivariable">
+               <content>
+                  <VBox alignment="TOP_CENTER" minHeight="0.0" minWidth="0.0" prefHeight="500.0" prefWidth="600.0" spacing="5.0">
+                     <children>
+                        <HBox alignment="TOP_CENTER" prefHeight="37.0" prefWidth="600.0" style="-fx-spacing: 10;">
+                           <children>
+                              <Label text="Valor de 'X'" />
+                              <TextField fx:id="valorX" alignment="CENTER" prefHeight="25.0" prefWidth="161.0" promptText="X" />
+                              <Label layoutX="219.0" layoutY="10.0" text="Valor de 'Y'" />
+                              <TextField fx:id="valorY" alignment="CENTER" layoutX="236.0" layoutY="10.0" prefHeight="25.0" prefWidth="166.0" promptText="Y" />
+                              <Label layoutX="313.0" layoutY="10.0" text="Error" />
+                              <TextField fx:id="errorPer" alignment="CENTER" layoutX="348.0" layoutY="10.0" prefHeight="25.0" prefWidth="166.0" promptText="Error Permitido" />
+                           </children>
+                           <VBox.margin>
+                              <Insets top="5.0" />
+                           </VBox.margin>
+                        </HBox>
+                        <HBox alignment="TOP_CENTER" prefHeight="37.0" prefWidth="600.0" style="-fx-spacing: 5;">
+                           <children>
+                              <Label text="F1(x,y)" />
+                              <TextField fx:id="funcionUnoNewtonMulti" alignment="CENTER" promptText="Funcion 1">
+                                 <font>
+                                    <Font name="System Italic" size="12.0" />
+                                 </font>
+                              </TextField>
+                              <Label layoutX="10.0" layoutY="10.0" text="F2(x,y)" />
+                              <TextField fx:id="funcionDosNewtonMulti" alignment="CENTER" layoutX="44.0" layoutY="10.0" promptText="Funcion 2">
+                                 <font>
+                                    <Font name="System Italic" size="12.0" />
+                                 </font>
+                              </TextField>
+                           </children>
+                           <VBox.margin>
+                              <Insets top="5.0" />
+                           </VBox.margin>
+                        </HBox>
+                        <HBox alignment="TOP_CENTER" prefHeight="37.0" prefWidth="600.0" style="-fx-spacing: 10;">
+                           <children>
+                              <Label text="∂f1/∂x" />
+                              <TextField fx:id="primerDerivadaXNewtonMulti" alignment="CENTER" prefHeight="25.0" prefWidth="156.0" promptText="Primera Derivada Parcial 'x'" />
+                              <Label layoutX="219.0" layoutY="10.0" text="∂f1/∂y" />
+                              <TextField fx:id="primerDerivadaYNewtonMulti" alignment="CENTER" layoutX="236.0" layoutY="10.0" prefHeight="25.0" prefWidth="161.0" promptText="Primera Derivada Parcial 'y'" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="TOP_CENTER" layoutX="10.0" layoutY="98.0" prefHeight="37.0" prefWidth="600.0" style="-fx-spacing: 10;">
+                           <children>
+                              <Label text="∂f2/∂x" />
+                              <TextField fx:id="segundaDerivadaXNewtonMulti" prefHeight="25.0" prefWidth="161.0" promptText="Segunda Derivada Parcial 'x'" />
+                              <Label layoutX="219.0" layoutY="10.0" text="∂f2/∂y" />
+                              <TextField fx:id="segundaDerivadaYNewtonMulti" prefHeight="25.0" prefWidth="166.0" promptText="Segunda Derivada Parcial 'y'" />
+                           </children>
+                        </HBox>
+                         <TextArea fx:id="txtAreaNewtonMulti" editable="false" prefHeight="236.0" prefWidth="590.0">
+                             <VBox.margin>
+                                 <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                             </VBox.margin>
+                         </TextArea>
+                        <Button fx:id="resolverNewtonMulti" mnemonicParsing="false" styleClass="btn, btn-success" text="Resolver">
+                            <graphic>
+                                <MaterialDesignIconView fill="black" glyphName="MATH_COMPASS" glyphSize="20" textAlignment="CENTER" />
+                            </graphic>
+                        </Button>
+                     </children>
+                     <padding>
+                        <Insets bottom="5.0" />
+                     </padding>
+                  </VBox>
+               </content>
+            </Tab>
+
+            <Tab text="Aproximacion Funcional">
+               <content>
+                  <VBox alignment="TOP_CENTER" minHeight="0.0" minWidth="0.0" prefHeight="900.0" prefWidth="600.0" spacing="5.0">
+                     <padding>
+                        <Insets bottom="5.0" />
+                     </padding>
+                     <children>
+                        <HBox alignment="TOP_CENTER" prefHeight="48.0" prefWidth="600.0" spacing="10.0">
+                           <children>
+                              <Label text="n" />
+                              <TextField fx:id="numeroDatosAproxFunc" promptText="Numero de datos" />
+                              <JFXButton fx:id="btnFilasAproxFunci" buttonType="RAISED" mnemonicParsing="false" ripplerFill="#176b4b" style="-fx-background-color: #2dd796;" text="Crear filas" />
+                           </children>
+                           <VBox.margin>
+                              <Insets top="5.0" />
+                           </VBox.margin>
+                        </HBox>
+                        <BorderPane prefHeight="1000.0" prefWidth="200.0">
+                           <center>
+                              <TableView fx:id="tblViewAproxFunci" prefHeight="227.0" prefWidth="334.0" BorderPane.alignment="CENTER">
+                                 <BorderPane.margin>
+                                    <Insets bottom="10.0" />
+                                 </BorderPane.margin>
+                              </TableView>
+                           </center>
+
+                           <bottom>
+                              <TextArea fx:id="txtAreaAproxFunc" editable="false" prefHeight="155.0" prefWidth="600.0" BorderPane.alignment="CENTER" />
+                           </bottom>
+                        </BorderPane>
+                        <Button fx:id="btnResolverAproxFuncio" disable="true" mnemonicParsing="false" text="Resolver" />
+
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                           <children>
+                              <VBox alignment="CENTER" prefHeight="200.0" prefWidth="600.0">
+                                 <children>
+                                    <LineChart fx:id="Grafica" prefHeight="284.0" prefWidth="600.0">
+                                      <xAxis>
+                                        <NumberAxis label="Valores en 'X'" prefWidth="522.0" />
+                                      </xAxis>
+                                      <yAxis>
+                                        <NumberAxis label="Valores en 'Y'" />
+                                      </yAxis>
+                                    </LineChart>
+                                 </children></VBox>
+                           </children></AnchorPane>
+                     </children>
+                  </VBox>
+               </content>
+            </Tab>
+
+        </tabs>
+      </TabPane>
+   </children>
+</VBox>

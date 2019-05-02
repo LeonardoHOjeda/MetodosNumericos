@@ -1,24 +1,29 @@
 package sample;
 
 import Funcion.Function;
-import javafx.application.Application;
-import javafx.beans.property.IntegerProperty;
+import SolucionMetodos.TercerParcial.Lineales;
+import SolucionMetodos.SegundoParcial.MetodoNewtonRhapson;
+import SolucionMetodos.SegundoParcial.MetodoPuntoFijo;
+import SolucionMetodos.SegundoParcial.MetodoSecante;
+import herramientas.escenas;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
-import utils.MyUtils;
-
+import javafx.stage.Stage;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -47,6 +52,9 @@ public class segundoParcial implements Initializable  {
     Button solucionSecanteFx;
 
     @FXML
+    MenuItem tablaFunciones, comoFunciona, infoNewton, infoPuntoFijo, infoSecante;
+
+    @FXML
     ComboBox<String> cmbVariables;
     @FXML
     GridPane gridPaneGaussJordan;
@@ -70,10 +78,7 @@ public class segundoParcial implements Initializable  {
     private void GUI(){
         cmbVariables.setItems(list);
         solucionGauss.setDisable(true);
-
         //numVariables = Integer.parseInt(cmbVariables.getValue());
-
-
         limpiarGauss.setOnAction(event -> limpiar());
 
         metodoPuntoFijo = new MetodoPuntoFijo();
@@ -81,6 +86,46 @@ public class segundoParcial implements Initializable  {
         metodoSecante = new MetodoSecante();
         lin = new Lineales();
 
+        infoPuntoFijo.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                String info = "El método del punto fijo es un método iterativo que permite \nresolver sistemas de ecuaciones no necesariamente lineales. " +
+                        "\nEn particular se puede utilizar para \ndeterminar raíces de una función de la forma " +
+                        "f(x), siempre y cuando \nse cumplan los criterios de convergencia";
+                escenas.escenaInfo(info,500,500);
+            }
+        });
+
+        comoFunciona.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                escenas.escenaInfo("Info",60,100);
+            }
+        });
+
+        tablaFunciones.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                try{
+                    Parent root = FXMLLoader.load(getClass().getResource("tablaFunciones.FXML"));
+                    Stage stage = new Stage();
+                    stage.setTitle("Funciones");
+
+                    Scene sc = new Scene(root,500,600);
+
+
+                    sc.getStylesheets().add("org/kordamp/bootstrapfx/bootstrapfx.css");
+
+                    stage.setScene(sc);
+                    stage.setResizable(false);
+                    stage.show();
+
+                }catch(IOException e){
+                    System.out.println(e.getMessage());
+                    System.out.println("No se puede abrir");
+                }
+            }
+        });
         solucionPuntoFijoFx.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -110,11 +155,10 @@ public class segundoParcial implements Initializable  {
                     info = obtenerMatrizTextField();
                     lin.setMatriz(info);
                     lin.setNumeroVariables(numVariables);
-
                     GaussJordan();
                     limpiarGauss.setDisable(false);
                 }catch (Exception e){
-                    alertaError("Campos vacios, favor de llenar","CAMPOS VACIOS","ERROR! Campos vacios", Alert.AlertType.ERROR);
+                    alertas("Campos no validos, favor de llenar los campos correctamente","CAMPOS NO VALIDOS","ERROR! CAMPOS NO VALIDOS", Alert.AlertType.ERROR);
                 }
             }
         });
@@ -126,9 +170,8 @@ public class segundoParcial implements Initializable  {
                     numVariables = Integer.parseInt(cmbVariables.getValue());
                     creacionTextField(numVariables);
                 }catch(Exception e){
-                    alertaError("Introduce las variables","Sin variables detectadas","No has seleccionado las variables", Alert.AlertType.ERROR);
+                    alertas("Introduce las variables","Sin variables detectadas","No has seleccionado las variables", Alert.AlertType.ERROR);
                 }
-
             }
         });
     } // Fin GUI
@@ -157,11 +200,7 @@ public class segundoParcial implements Initializable  {
             metodoPuntoFijo.reiniciarProcedimiento();
 
         }catch(NumberFormatException e){
-            Alert al = new Alert(Alert.AlertType.WARNING);
-            al.setTitle("ERROR!");
-            al.setContentText("Asegurate de meter los vaores correctos");
-            al.setHeaderText("Fail interval!");
-            al.show();
+            alertas("Asegurate de meter los valores correctos","ERROR!","Intervalo fallido", Alert.AlertType.WARNING);
         }
     } //Fin Punto Fijo
 
@@ -184,11 +223,7 @@ public class segundoParcial implements Initializable  {
             txtAreaNewtonFx.appendText("\n\n Raiz: " + metodoNewtonRhapson.getFormato(metodoNewtonRhapson.getXiPlusOne()));
             metodoNewtonRhapson.reiniciarProcedimiento();
         }catch(NumberFormatException e){
-            Alert al = new Alert(Alert.AlertType.WARNING);
-            al.setTitle("ERROR!");
-            al.setContentText("Asegurate de meter los vaores correctos");
-            al.setHeaderText("Fail interval!");
-            al.show();
+            alertas("Asegurate de meter los valores correctos","ERROR!","Intervalo fallido", Alert.AlertType.WARNING);
         }
     }
 
@@ -210,11 +245,7 @@ public class segundoParcial implements Initializable  {
             txtAreaSecanteFx.appendText("\n\n Raiz: " + metodoSecante.getFormato(metodoSecante.getXiMasUno()));
             metodoSecante.reiniciarProcedimiento();
         }catch(NumberFormatException e){
-            Alert al = new Alert(Alert.AlertType.WARNING);
-            al.setTitle("ERROR!");
-            al.setContentText("Asegurate de meter los vaores correctos");
-            al.setHeaderText("Fail interval!");
-            al.show();
+            alertas("Asegurate de meter los valores correctos","ERROR!","Intervalo fallido", Alert.AlertType.WARNING);
         }
     }
 
@@ -237,11 +268,12 @@ public class segundoParcial implements Initializable  {
     }
 
     /**
-     *
+     * Crea los Text Field necesarios dependiendo de las variables
      */
     private void creacionTextField(int numVariables){
         gridPaneGaussJordan.getChildren().clear();
         gridPaneGaussJordan.getColumnConstraints().clear();
+        gridPaneGaussJordan.getStyleClass().add("p");
         solucionGauss.setDisable(false);
 
         //Ciclo para crear los 'labels'
@@ -249,7 +281,6 @@ public class segundoParcial implements Initializable  {
             Label lbl = new Label("X" + (i+1));
             lbl.getStyleClass().add("lbl");
             lbl.getStyleClass().add("lbl-danger");
-            lbl.getStyleClass().add("h2");
             gridPaneGaussJordan.add(lbl,i,0);
             //gridPaneGaussJordan.setAlignment(lbl, HPos.CENTER);
             gridPaneGaussJordan.setHalignment(lbl,HPos.CENTER);
@@ -259,7 +290,7 @@ public class segundoParcial implements Initializable  {
         for(int fila=1;fila <= numVariables; fila++){
             for (int columna=0; columna <= numVariables; columna++){
                 TextField txtField = new TextField();
-                txtField.getStyleClass().add("text-primary");
+                txtField.getStyleClass().add("text-success");
                 txtField.setOnKeyTyped(keyEventNumber);
                 gridPaneGaussJordan.add(txtField,columna,fila);
                 gridPaneGaussJordan.setHgap(5);
@@ -293,11 +324,9 @@ public class segundoParcial implements Initializable  {
         return numeros;
     }
 
-
-
     private void imprimirResultados(double[] resultados){
         for(int i=0; i<resultados.length; i++){
-            txtAreaGaussJordan.appendText("X"+(i+1)+ "="+ MyUtils.format(resultados[i])+"\n");
+            txtAreaGaussJordan.appendText("X"+(i+1)+ "="+ escenas.numeroReducido(resultados[i])+"\n");
         }
     }
 
@@ -309,111 +338,7 @@ public class segundoParcial implements Initializable  {
         }
     };
 
-    /*private void GaussJordan(){
-
-        gridPane.getChildren().clear();
-        limpiarGauss.setDisable(false);
-        TextField tx = new TextField();
-        tx.setMaxWidth(100);
-
-        if(cmbVariables.getValue()=="2"){
-            gridPane.getChildren().clear();
-            solucionGauss.setDisable(false);
-            gridPane.setHgap(10);
-            gridPane.setVgap(5);
-            gridPane.add(tx,0,0);
-            gridPane.add(new TextField(),1,0);
-            gridPane.add(new TextField(),2,0);
-            gridPane.add(new TextField(),0,1);
-            gridPane.add(new TextField(),1,1);
-            gridPane.add(new TextField(),2,1);
-
-        } else if (cmbVariables.getValue()=="3"){
-
-            solucionGauss.setDisable(false);
-            gridPane.setHgap(10);
-            gridPane.setVgap(5);
-            gridPane.add(new TextField(),0,0);
-            gridPane.add(new TextField(),1,0);
-            gridPane.add(new TextField(),2,0);
-            gridPane.add(new TextField(),3,0);
-            gridPane.add(new TextField(),0,1);
-            gridPane.add(new TextField(),1,1);
-            gridPane.add(new TextField(),2,1);
-            gridPane.add(new TextField(),3,1);
-            gridPane.add(new TextField(),0,2);
-            gridPane.add(new TextField(),1,2);
-            gridPane.add(new TextField(),2,2);
-            gridPane.add(new TextField(),3,2);
-            //System.out.println("Tres");
-        } else if (cmbVariables.getValue()=="4"){
-            //System.out.println("Four");
-            solucionGauss.setDisable(false);
-            gridPane.setHgap(10);
-            gridPane.setVgap(5);
-            gridPane.add(new TextField(),0,0);
-            gridPane.add(new TextField(),1,0);
-            gridPane.add(new TextField(),2,0);
-            gridPane.add(new TextField(),3,0);
-            gridPane.add(new TextField(),4,0);
-            gridPane.add(new TextField(),0,1);
-            gridPane.add(new TextField(),1,1);
-            gridPane.add(new TextField(),2,1);
-            gridPane.add(new TextField(),3,1);
-            gridPane.add(new TextField(),4,1);
-            gridPane.add(new TextField(),0,2);
-            gridPane.add(new TextField(),1,2);
-            gridPane.add(new TextField(),2,2);
-            gridPane.add(new TextField(),3,2);
-            gridPane.add(new TextField(),4,2);
-            gridPane.add(new TextField(),0,3);
-            gridPane.add(new TextField(),1,3);
-            gridPane.add(new TextField(),2,3);
-            gridPane.add(new TextField(),3,3);
-            gridPane.add(new TextField(),4,3);
-        } else if (cmbVariables.getValue()=="5"){
-            //solucionGauss.setDisable(false);
-            gridPane.setHgap(10);
-            gridPane.setVgap(5);
-            gridPane.add(new TextField(),0,0);
-            gridPane.add(new TextField(),1,0);
-            gridPane.add(new TextField(),2,0);
-            gridPane.add(new TextField(),3,0);
-            gridPane.add(new TextField(),4,0);
-            gridPane.add(new TextField(),5,0);
-
-            gridPane.add(new TextField(),0,1);
-            gridPane.add(new TextField(),1,1);
-            gridPane.add(new TextField(),2,1);
-            gridPane.add(new TextField(),3,1);
-            gridPane.add(new TextField(),4,1);
-            gridPane.add(new TextField(),5,1);
-
-            gridPane.add(new TextField(),0,2);
-            gridPane.add(new TextField(),1,2);
-            gridPane.add(new TextField(),2,2);
-            gridPane.add(new TextField(),3,2);
-            gridPane.add(new TextField(),4,2);
-            gridPane.add(new TextField(),5,2);
-
-            gridPane.add(new TextField(),0,3);
-            gridPane.add(new TextField(),1,3);
-            gridPane.add(new TextField(),2,3);
-            gridPane.add(new TextField(),3,3);
-            gridPane.add(new TextField(),4,3);
-            gridPane.add(new TextField(),5,3);
-
-            gridPane.add(new TextField(),0,4);
-            gridPane.add(new TextField(),1,4);
-            gridPane.add(new TextField(),2,4);
-            gridPane.add(new TextField(),3,4);
-            gridPane.add(new TextField(),4,4);
-            gridPane.add(new TextField(),5,4);
-            //System.out.println("Fais");
-        }
-    }*/
-
-    private void alertaError(String mensaje, String titulo, String Subtitulo, Alert.AlertType tipoAlerta){
+    private void alertas(String mensaje, String titulo, String Subtitulo, Alert.AlertType tipoAlerta){
         Alert al = new Alert(tipoAlerta);
         al.setTitle(titulo);
         al.setHeaderText(Subtitulo);

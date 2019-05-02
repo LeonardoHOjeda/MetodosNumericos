@@ -1,7 +1,6 @@
 package sample;
 
 import com.jfoenix.controls.JFXButton;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -20,7 +19,7 @@ import java.util.ResourceBundle;
 public class Controller implements Initializable {
 
     @FXML
-    JFXButton primerParcial,segundoParcial,tercerParcial;
+    JFXButton primerParcial,segundoParcial,tercerParcial, cuartoParcial;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -46,11 +45,13 @@ public class Controller implements Initializable {
             }
         });
 
+        cuartoParcial.setOnAction(event -> cuartoParcial());
+
     }
 
     public void primerParcial(){
         try{
-            Parent root = FXMLLoader.load(getClass().getResource("primerParc.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("../GUI/primerParc.fxml"));
             Stage stage = new Stage();
             stage.setTitle("Primer Parcial");
 
@@ -68,13 +69,13 @@ public class Controller implements Initializable {
 
     public void segundoParcial(){
         try{
-            Parent root = FXMLLoader.load(getClass().getResource("segundoParc.FXML"));
+            Parent root = FXMLLoader.load(getClass().getResource("../GUI/segundoParc.fxml"));
             Stage stage = new Stage();
             stage.setTitle("Segundo Parcial");
 
             Scene sc = new Scene(root,800,400);
 
-            sc.getStylesheets().add("segundoParcial.css");
+            //sc.getStylesheets().add("segundoParcial.css");
             sc.getStylesheets().add("org/kordamp/bootstrapfx/bootstrapfx.css");
 
             stage.setScene(sc);
@@ -89,7 +90,26 @@ public class Controller implements Initializable {
 
     public void tercerParcial(){
         try{
-            Parent root = FXMLLoader.load(getClass().getResource("tercerParc.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("../GUI/tercerParc.fxml"));
+            //
+            Stage stage = new Stage();
+            stage.setTitle("Cuarto Parcial");
+
+            Scene sc = new Scene(root,800,1000);
+
+            sc.getStylesheets().add("org/kordamp/bootstrapfx/bootstrapfx.css");
+
+            stage.setScene(sc);
+            stage.show();
+
+        }catch(IOException e){
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void cuartoParcial(){
+        try{
+            Parent root = FXMLLoader.load(getClass().getResource("../prueba/prueba.fxml"));
             Stage stage = new Stage();
             stage.setTitle("Tercer Parcial");
 
@@ -104,6 +124,8 @@ public class Controller implements Initializable {
             System.out.println(e.getMessage());
         }
     }
+
+
     public void cerrar(javafx.scene.input.MouseEvent mouseEvent) {
         Stage s = (Stage)((Node)mouseEvent.getSource()).getScene().getWindow();
         s.close();

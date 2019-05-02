@@ -58,7 +58,7 @@
                     <MaterialDesignIconView disable="true" fill="black" glyphName="NUMERIC_3_BOX_OUTLINE" glyphSize="20" />
                 </graphic>
             </JFXButton>
-            <JFXButton disable="true" mnemonicParsing="false" prefHeight="28.0" prefWidth="134.0" style="-fx-background-color: fbbc05;" text="Cuarto Parcial">
+            <JFXButton disable="true" mnemonicParsing="false" prefHeight="28.0" prefWidth="134.0" style="-fx-background-color: fbbc05;" text="Cuarto Parcial" fx:id="cuartoParcial">
                 <graphic>
                     <EmojiOneView fill="black" glyphName="FOUR_LEAF_CLOVER" glyphSize="20" />
                 </graphic>
