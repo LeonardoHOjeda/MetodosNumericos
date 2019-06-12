@@ -11,7 +11,6 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<?import javafx.scene.control.Button?>
 <BorderPane prefHeight="484.0" prefWidth="584.0" stylesheets="@../sample/estilos.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
     <top>
         <HBox alignment="CENTER_RIGHT" onMouseDragged="#boton" onMousePressed="#presion" prefHeight="33.0" prefWidth="584.0" style="-fx-background-color: #4285f4;">
@@ -59,7 +58,7 @@
                     <MaterialDesignIconView disable="true" fill="black" glyphName="NUMERIC_3_BOX_OUTLINE" glyphSize="20" />
                 </graphic>
             </JFXButton>
-            <JFXButton fx:id="cuartoParcial" disable="true" mnemonicParsing="false" prefHeight="28.0" prefWidth="134.0" style="-fx-background-color: fbbc05;" text="Cuarto Parcial">
+            <JFXButton fx:id="cuartoParcial" mnemonicParsing="false" prefHeight="28.0" prefWidth="134.0" style="-fx-background-color: fbbc05;" text="Cuarto Parcial">
                 <graphic>
                     <EmojiOneView fill="black" glyphName="FOUR_LEAF_CLOVER" glyphSize="20" />
                 </graphic>

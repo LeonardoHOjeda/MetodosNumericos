@@ -17,6 +17,9 @@ public class Function {
                     .build();
     }
 
+    public Function() {
+    }
+
     /**
      * Evalua la funcion dada para un cierto valor
      * @param value El valor para el cual se requiere elvaluar la función

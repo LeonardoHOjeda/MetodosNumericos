@@ -72,7 +72,6 @@ public class segundoParcial implements Initializable  {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         GUI();
-
     }
 
     private void GUI(){

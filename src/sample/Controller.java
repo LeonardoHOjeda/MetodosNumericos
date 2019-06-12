@@ -52,7 +52,7 @@ public class Controller implements Initializable {
 
     public void primerParcial(){
         try{
-            Parent root = FXMLLoader.load(getClass().getResource("../GUI/primerParc.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/GUI/primerParc.fxml"));
             Stage stage = new Stage();
             stage.setTitle("Primer Parcial");
 
@@ -70,7 +70,7 @@ public class Controller implements Initializable {
 
     public void segundoParcial(){
         try{
-            Parent root = FXMLLoader.load(getClass().getResource("../GUI/segundoParc.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/GUI/segundoParc.fxml"));
             Stage stage = new Stage();
             stage.setTitle("Segundo Parcial");
 
@@ -91,7 +91,7 @@ public class Controller implements Initializable {
 
     public void tercerParcial(){
         try{
-            Parent root = FXMLLoader.load(getClass().getResource("../GUI/tercerParc.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/GUI/tercerParc.fxml"));
             //
             Stage stage = new Stage();
             stage.setTitle("Tercer Parcial");
@@ -110,11 +110,11 @@ public class Controller implements Initializable {
 
     public void cuartoParcial(){
         try{
-            Parent root = FXMLLoader.load(getClass().getResource("../prueba/prueba.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/GUI/cuartoParc.fxml"));
             Stage stage = new Stage();
             stage.setTitle("Cuaro Parcial");
 
-            Scene sc = new Scene(root,800,400);
+            Scene sc = new Scene(root,950,877);
 
             sc.getStylesheets().add("org/kordamp/bootstrapfx/bootstrapfx.css");
 

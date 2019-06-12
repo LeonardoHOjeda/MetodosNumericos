@@ -39,8 +39,6 @@ import java.text.DecimalFormat;
 import java.util.ResourceBundle;
 
 public class tercerParcial implements Initializable {
-    ObservableList<String> list = FXCollections.observableArrayList("2","3","4","5","6");
-
     @FXML
     MenuItem tblFunciones;
 
@@ -78,11 +76,7 @@ public class tercerParcial implements Initializable {
     @FXML
     TextField numeroDatosAproxFunc;
     @FXML
-    private Label lblXm, lblYm, lblXSum, lblYSum, lblXYSum, lblSquareXSum, lblSrSum, lblStSum, lblEcuation, lblR;
-    @FXML
     TableView<InsercionValores> tblViewAproxFunci;
-    @FXML
-    LineChart Grafica;
     @FXML
     JFXButton btnFilasAproxFunci;
     @FXML
@@ -90,10 +84,10 @@ public class tercerParcial implements Initializable {
     @FXML
     TextArea txtAreaAproxFunc;
 
+    ObservableList<String> list = FXCollections.observableArrayList("2","3","4","5","6");
     int numeroVariables;
     private ObservableList<InsercionValores> insVal;
     private OperacionesFuncionales sum;
-    //int numVariables;
     MetodoNewtonMulti mnm;
     Lineales lin;
 
@@ -124,7 +118,7 @@ public class tercerParcial implements Initializable {
         tblFunciones.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                File myfile = new File("../Metodos1/PDF/Archivo de prueba.pdf");
+                File myfile = new File("C:/Users/perro/IdeaProjects/Metodos1/PDF/Como funciona - Jacobi.pdf");
                 try {
                     Desktop.getDesktop().open(myfile);
                 } catch (IOException e) {
@@ -205,6 +199,7 @@ public class tercerParcial implements Initializable {
          * =======================================
          */
         insertarDatos();
+
         btnFilasAproxFunci.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -221,19 +216,20 @@ public class tercerParcial implements Initializable {
             @Override
             public void handle(ActionEvent event) {
                 solveModel();
-                try {
+                /*try {
                     showGraphic();
                 } catch (Exception e) {
                     System.out.println("Erro en la grafica");
                     e.printStackTrace();
-                }
+                }*/
             }
         });
 
     }
 
-    /**
+    /**====================================================
      * Insercion de datos de Newton-Rhapson Multivariable
+     * ====================================================
      */
     private void NewtonMulti(){
         try{
@@ -265,7 +261,6 @@ public class tercerParcial implements Initializable {
             mnm.setFuncion2y(derf2y);
             mnm.setErrorPermitido(error);
             mnm.NewtonMulti();
-
 
             txtAreaNewtonMulti.setText(mnm.getProcedimiento());
             txtAreaNewtonMulti.appendText("\n\nRaiz X: "+mnm.getFormato(mnm.getXiPlusOne())+"\nRaiz Y: "+mnm.getFormato(mnm.getYiPlusOne()));
@@ -330,28 +325,16 @@ public class tercerParcial implements Initializable {
     private void insertarDatos(){
         TableColumn<InsercionValores, TextField> columnaX = new TableColumn<>("X");
         TableColumn<InsercionValores, TextField> columnaY = new TableColumn<>("Y");
-        TableColumn<InsercionValores, String> columnaXiYi = new TableColumn<InsercionValores, String>("XiYi");
-        TableColumn<InsercionValores, String> columnaX2 = new TableColumn<InsercionValores, String>("X²");
-        TableColumn<InsercionValores, String> columnaY2 = new TableColumn<>("Y²");
-        TableColumn<InsercionValores, String> columnaSt = new TableColumn<InsercionValores, String>("ST");
-        TableColumn<InsercionValores, String> columnaSr = new TableColumn<InsercionValores, String>("SR");
+
 
         columnaX.setCellValueFactory(new PropertyValueFactory<InsercionValores, TextField>("txtPuntoX"));
         columnaY.setCellValueFactory(new PropertyValueFactory<InsercionValores, TextField>("txtPuntoY"));
-        columnaXiYi.setCellValueFactory(new PropertyValueFactory<InsercionValores, String>("XiYi"));
-        columnaX2.setCellValueFactory(new PropertyValueFactory<InsercionValores, String>("X2"));
-       columnaY2.setCellValueFactory(new PropertyValueFactory<InsercionValores, String>("Y2"));
-        columnaSt.setCellValueFactory(new PropertyValueFactory<InsercionValores, String>("St"));
-        columnaSr.setCellValueFactory(new PropertyValueFactory<InsercionValores, String>("Sr"));
+
 
         columnaX.setSortable(false);
         columnaY.setSortable(false);
-        columnaX2.setSortable(false);
-        columnaY2.setSortable(false);
 
-        columnaXiYi.setEditable(true);
-
-        tblViewAproxFunci.getColumns().addAll(columnaX,columnaY,columnaXiYi,columnaX2,columnaY2,columnaSt,columnaSr);
+        tblViewAproxFunci.getColumns().addAll(columnaX,columnaY);
         tblViewAproxFunci.setItems(insVal);
     }
 
@@ -362,27 +345,6 @@ public class tercerParcial implements Initializable {
 
         tblViewAproxFunci.setDisable(false);
         btnResolverAproxFuncio.setDisable(false);
-    }
-
-    private void showGraphic() throws Exception {
-        Grafica.getData().clear();
-
-        String def = sum.a0() + " + " + sum.a1() + "x";
-        Function function = new Function(def);
-
-        double xValues[] = new double[insVal.size()];
-        double yValues[];
-
-        for (int i = 0; i < insVal.size(); i++)
-            xValues[i] = insVal.get(i).getX();
-
-        yValues = function.evaluateFrom(xValues);
-
-        XYChart.Series pointsSerie = getSerie();
-        XYChart.Series linearSerie = getSerie(def, xValues, yValues);
-
-        Grafica.getData().add(pointsSerie);
-        Grafica.getData().add(linearSerie);
     }
 
     private void solveModel() {
@@ -447,12 +409,6 @@ public class tercerParcial implements Initializable {
         txtAreaJacobi.clear();
     }
 
-    private void resultados(double[] resultados){
-        for (int i=0; i<resultados.length; i++){
-            txtAreaJacobi.appendText("X"+(i+1) + " = " + escenas.numeroReducido(resultados[i])+ "\n");
-        }
-    }
-
     private void imprimirResultados(double[] resultados){
         txtAreaJacobi.appendText("\n");
         for(int i=0; i<resultados.length; i++){
@@ -466,8 +422,10 @@ public class tercerParcial implements Initializable {
             txtAreaGaussSeidel.appendText("X"+(i+1)+" = "+ escenas.numeroReducido(resultados[i])+"\n");
         }
     }
-    /**
+
+    /**==============================================================
      * Crea los Text Field necesarios dependiendo de las variables
+     * ==============================================================
      */
     private void creacionTextField(int numVariables){
         gridPaneJacobi.getChildren().clear();
@@ -548,15 +506,15 @@ public class tercerParcial implements Initializable {
         return numerosVariables;
     }
 
-    /**
+    /**=========================================
      * Creacion de TextField para Gauss-Seidel
+     * =========================================
      */
     private void creacionTextFieldGauss(int numVariables){
         gridPaneGaussSeidel.getChildren().clear();
         gridPaneGaussSeidel.getColumnConstraints().clear();
         gridPaneGaussSeidel.getStyleClass().add("p");
         resolverGaussSeidel.setDisable(false);
-
 
         //Ciclo para crear los 'labels'
         for (int i=0; i<=numVariables; i++){
@@ -631,9 +589,10 @@ public class tercerParcial implements Initializable {
         return numerosVariables;
     }
 
-    /**
+    /**======================================================
      * Metodo que transforma los TextField en un arreglo 2D
      * @return el numero en el arreglo 2D
+     * =======================================================
      */
     private double[][] obtenerMatrizTextField(){
         double numeros[][] = new double[numeroVariables][numeroVariables+1];
